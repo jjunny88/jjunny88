@@ -2,75 +2,57 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>직책자 개인별 현황 조회</title>
   <style>
-    /* 기본 초기화 */
     * {
-      margin: 0; padding: 0; box-sizing: border-box;
+      margin: 0; 
+      padding: 0; 
+      box-sizing: border-box;
     }
     body {
       font-family: 'Malgun Gothic', sans-serif;
-      min-height: 100vh;
-      display: flex;
+      width: 100%;
+      height: 100vh;
+      display: flex;             /* 좌우 2컬럼 레이아웃 */
       flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      background: url("https://i.imgur.com/QFo4qxk.jpeg") no-repeat center center;
+      background-size: cover;    /* 배경 이미지 전체 채우기 */
     }
-
-    /* 왼쪽: 큰 배경 영역 */
+    /* 왼쪽 텍스트 영역 */
     .left-section {
-      flex: 1;
-      background: linear-gradient(135deg, #6969ff 0%, #7aa3ff 100%); 
-      /* 예시로 파란 그라디언트 사용 */
+      flex: 1;                  /* 남은 공간을 모두 차지 */
       display: flex;
       flex-direction: column;
       justify-content: center;
-      align-items: flex-start;
-      padding: 60px;
-      color: white;
-      position: relative;
-    }
-
-    /* 오른쪽: 조회 카드 영역 */
-    .right-section {
-      width: 500px; /* 원하는 너비 */
-      display: flex;
       align-items: center;
-      justify-content: center;
-      background-color: #f4f4f4; 
     }
-
-    /* 왼쪽 영역 안의 큰 타이틀 */
     .left-section h1 {
-      font-size: 2.2rem;
+      font-size: 2rem;
+      color: #333;
       margin-bottom: 10px;
     }
     .left-section p {
-      font-size: 1.1rem;
-      line-height: 1.6;
+      font-size: 1rem;
+      color: #555;
     }
 
-    /* 예시 일러스트 (사람들 그림 등) */
-    .illustration {
-      position: absolute;
-      bottom: 0;
-      left: 20px;
-      width: 250px; /* 일러스트 크기 */
-      opacity: 0.9;
+    /* 오른쪽 카드 영역 */
+    .right-section {
+      width: 400px;             /* 카드가 들어갈 영역 너비 */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-right: 40px;       /* 원하는 여백 */
     }
-
-    /* 오른쪽 카드 스타일 */
     .card {
-      background: white;
-      width: 350px;
+      background: #fff;
+      width: 100%;
       border-radius: 10px;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
       padding: 30px;
       text-align: center;
-    }
-    .card img {
-      width: 80px;
-      margin-bottom: 15px;
-      border-radius: 10px;
     }
     .card h2 {
       margin-bottom: 20px;
@@ -97,45 +79,45 @@
     .card button:hover {
       background-color: #0056b3;
     }
-    .card .loading {
+    .loading {
       margin-top: 10px;
       font-size: 14px;
       color: #007bff;
       display: none;
     }
-    .card .result-message {
+    .result-message {
       margin-top: 20px;
     }
   </style>
 </head>
 <body>
 
-  <!-- 왼쪽 영역: 배경 + 타이틀 + 문구 + 일러스트 -->
+  <!-- 왼쪽 영역: 조회 제목 / 문구 -->
   <div class="left-section">
-    <h1>WELCOME TO ETOOS<br>E-LEARNING ACADEMY</h1>
-    <p>1 HOUR DAILY LEARNING<br>하루하루 더 성장하는 나를 만나다</p>
-    <!-- 예시 일러스트 -->
-    <img class="illustration" src="https://i.imgur.com/XlX5d6T.png" alt="사람 일러스트">
+    <h1>직책자 개인별 현황 조회</h1>
+    <p>-25년 인센티브 지급 반영-</p>
   </div>
 
-  <!-- 오른쪽 영역: 조회 카드 -->
+  <!-- 오른쪽 영역: 입력 폼 카드 -->
   <div class="right-section">
+    <!-- 입력 폼 (조회 전) -->
     <div class="card" id="inputContainer">
-      <!-- 카드 상단 이미지 (두 번째 예시 스크린샷의 이미지) -->
-      <img src="https://i.imgur.com/Idbnt0w.jpeg" alt="표지 이미지">
-
-      <h2>직책자 개인별 현황 조회</h2>
+      <h2>로그인</h2>
+      <!-- "이미지 삽입 URL" -->
+      <input type="text" id="imageUrl" placeholder="이미지 삽입 URL">
+      <!-- 이름 -->
       <input type="text" id="name" placeholder="이름">
+      <!-- 사번 -->
       <input type="text" id="empId" placeholder="사번">
+      <!-- 주민등록번호 뒷자리 (더블클릭 시 표시/숨김) -->
       <input type="password" id="ssn" placeholder="주민등록번호 뒷자리" ondblclick="toggleSSN()">
 
-      <button id="searchBtn" onclick="fetchEvaluation()">조회</button>
+      <button id="searchBtn" onclick="fetchEvaluation()">LOGIN</button>
       <p id="loading" class="loading">🔄 조회 중...</p>
     </div>
 
-    <!-- 결과 표시 영역: 조회가 완료되면 inputContainer를 숨기고 이 영역을 보여줌 -->
+    <!-- 결과 화면 (조회 후) -->
     <div class="card" id="resultContainer" style="display: none;">
-      <img src="https://i.imgur.com/Idbnt0w.jpeg" alt="표지 이미지">
       <h2>현황 조회 결과</h2>
       <div class="result-message" id="result"></div>
       <button onclick="goBack()">다시 조회</button>
@@ -143,35 +125,40 @@
   </div>
 
   <script>
-    // 주민등록번호 더블클릭 시 표시/숨김
+    // 주민등록번호 뒷자리 더블클릭 시 표시/숨김
     function toggleSSN() {
       const ssnInput = document.getElementById("ssn");
       ssnInput.type = (ssnInput.type === "password") ? "text" : "password";
     }
 
     async function fetchEvaluation() {
+      const imageUrl = document.getElementById('imageUrl').value.trim();
       const name = document.getElementById('name').value.trim();
       const empId = document.getElementById('empId').value.trim();
       const ssn = document.getElementById('ssn').value.trim();
+
       const searchBtn = document.getElementById('searchBtn');
       const loadingText = document.getElementById('loading');
       const resultDiv = document.getElementById('result');
 
-      if (!name || !empId || !ssn) {
+      if (!imageUrl || !name || !empId || !ssn) {
         alert("모든 정보를 입력하세요.");
         return;
       }
 
+      // 조회 버튼 비활성화 & 로딩 표시
       searchBtn.disabled = true;
       searchBtn.textContent = "조회 중...";
       loadingText.style.display = "block";
-      resultDiv.innerHTML = ""; // 기존 결과 초기화
+      resultDiv.innerHTML = ""; // 결과 초기화
 
       try {
-        // 실제 서버 URL로 수정하세요
+        // 실제 서버 URL로 수정
+        // "imageUrl"도 서버로 보낼 경우, 아래처럼 파라미터 추가
         const response = await fetch(
           "https://script.google.com/macros/s/AKfycbxQJTX75iO_D5y9p_CE84BhLxyXA_HEpWt3Qq4nEbEx8tgZq8p3Ros-SOZvighmyZUR/exec"
-          + "?name=" + encodeURIComponent(name)
+          + "?imageUrl=" + encodeURIComponent(imageUrl)
+          + "&name=" + encodeURIComponent(name)
           + "&empId=" + encodeURIComponent(empId)
           + "&ssn=" + encodeURIComponent(ssn)
         );
@@ -198,13 +185,13 @@
         console.error("오류 발생:", error);
         resultDiv.innerHTML = "<p style='color: red;'>⚠️ 서버 오류가 발생했습니다.</p>";
         
-        // 입력 폼 숨기고 결과 화면 표시
         document.getElementById('inputContainer').style.display = 'none';
         document.getElementById('resultContainer').style.display = 'block';
       }
 
+      // 조회 버튼 복구 & 로딩 숨김
       searchBtn.disabled = false;
-      searchBtn.textContent = "조회";
+      searchBtn.textContent = "LOGIN";
       loadingText.style.display = "none";
     }
 
@@ -213,7 +200,9 @@
       document.getElementById('inputContainer').style.display = 'block';
       // 결과 영역 숨기기
       document.getElementById('resultContainer').style.display = 'none';
+
       // 입력값 초기화
+      document.getElementById('imageUrl').value = "";
       document.getElementById('name').value = "";
       document.getElementById('empId').value = "";
       document.getElementById('ssn').value = "";
