@@ -71,8 +71,12 @@
                 return;
             }
             
-            const response = await fetch("https://script.google.com/macros/s/AKfycbzTu24ZVAvHkCTofYdk21mQkVcOs6pIaqZDplyseXOAvhz_PHBMSFZN8RuSYNNvmw_T/exec?name=" + encodeURIComponent(name) + "&empId=" + encodeURIComponent(empId) + "&ssn=" + encodeURIComponent(ssn));
-            const data = await response.json();
+            const response = await fetch("https://script.google.com/macros/s/AKfycbzTu24ZVAvHkCTofYdk21mQkVcOs6pIaqZDplyseXOAvhz_PHBMSFZN8RuSYNNvmw_T/exec?name=" 
+    + encodeURIComponent(name) + "&empId=" 
+    + encodeURIComponent(empId) + "&ssn=" 
+    + encodeURIComponent(ssn));
+
+const data = await response.json();
             
             const resultDiv = document.getElementById("result");
             if (data.success) {
