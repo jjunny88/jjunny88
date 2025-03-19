@@ -22,25 +22,12 @@
             width: 300px;
             text-align: center;
         }
-        .input-wrapper {
-            position: relative;
-            width: 100%;
-        }
         input {
             width: 90%;
             padding: 10px;
             margin: 10px 0;
             border: 1px solid #ccc;
             border-radius: 5px;
-        }
-        .eye-icon {
-            position: absolute;
-            right: 10px;
-            top: 50%;
-            transform: translateY(-50%);
-            cursor: pointer;
-            font-size: 18px;
-            color: #777;
         }
         button {
             width: 100%;
@@ -80,8 +67,8 @@
         <input type="text" id="empId" placeholder="사번">
 
         <div class="input-wrapper">
-            <input type="password" id="ssn" placeholder="주민등록번호 뒷자리">
-            <span class="eye-icon" onclick="toggleSSN()">🔒</span>
+            <!-- 주민등록번호 입력란에 더블클릭 시 토글 -->
+            <input type="password" id="ssn" placeholder="주민등록번호 뒷자리" ondblclick="toggleSSN()">
         </div>
 
         <button id="searchBtn" onclick="fetchEvaluation()">조회</button>
@@ -93,19 +80,15 @@
     <script>
         function toggleSSN() {
             const ssnInput = document.getElementById("ssn");
-            const eyeIcon = document.querySelector(".eye-icon");
-
             if (ssnInput.type === "password") {
                 ssnInput.type = "text";
-                eyeIcon.textContent = "👀"; // 눈을 뜬 아이콘으로 변경
             } else {
                 ssnInput.type = "password";
-                eyeIcon.textContent = "🔒"; // 잠긴 아이콘으로 변경
             }
         }
 
         async function fetchEvaluation() {
-            const name = document.getElementById('name').value.trim(); // 공백 제거
+            const name = document.getElementById('name').value.trim();
             const empId = document.getElementById('empId').value.trim();
             const ssn = document.getElementById('ssn').value.trim();
             const searchBtn = document.getElementById('searchBtn');
@@ -117,13 +100,12 @@
                 return;
             }
 
-            console.log("입력 값:", name, empId, ssn); // 콘솔에서 입력값 확인
+            console.log("입력 값:", name, empId, ssn);
 
-            // 조회 버튼 비활성화 & 로딩 표시
             searchBtn.disabled = true;
             searchBtn.textContent = "조회 중...";
             loadingText.style.display = "block";
-            resultDiv.style.display = "none"; // 기존 결과 숨기기
+            resultDiv.style.display = "none";
 
             try {
                 const response = await fetch("https://script.google.com/macros/s/AKfycbzTu24ZVAvHkCTofYdk21mQkVcOs6pIaqZDplyseXOAvhz_PHBMSFZN8RuSYNNvmw_T/exec?name=" 
@@ -132,7 +114,7 @@
                     + encodeURIComponent(ssn));
 
                 const data = await response.json();
-                console.log("서버 응답:", data); // 서버 응답을 콘솔에서 확인
+                console.log("서버 응답:", data);
 
                 if (data.success) {
                     resultDiv.innerHTML = `<p><strong>직책:</strong> ${data.position}</p>
@@ -141,14 +123,13 @@
                 } else {
                     resultDiv.innerHTML = "<p style='color: red;'>조회된 정보가 없습니다.</p>";
                 }
-                resultDiv.style.display = "block"; // 결과 표시
+                resultDiv.style.display = "block";
             } catch (error) {
                 console.error("오류 발생:", error);
                 resultDiv.innerHTML = "<p style='color: red;'>⚠️ 서버 오류가 발생했습니다.</p>";
                 resultDiv.style.display = "block";
             }
 
-            // 조회 버튼 복구 & 로딩 숨김
             searchBtn.disabled = false;
             searchBtn.textContent = "조회";
             loadingText.style.display = "none";
