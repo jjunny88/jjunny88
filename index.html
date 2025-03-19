@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>임직원 인사평가 조회</title>
+    <style>
+        body {
+            font-family: 'Malgun Gothic', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            text-align: center;
+        }
+        input {
+            width: 90%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 10px;
+            background: #fff;
+            border-radius: 5px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>임직원 인사평가 조회</h2>
+        <input type="text" id="name" placeholder="이름">
+        <input type="text" id="empId" placeholder="사번">
+        <input type="text" id="ssn" placeholder="주민등록번호 뒷자리">
+        <button onclick="fetchEvaluation()">조회</button>
+        <div id="result" class="result"></div>
+    </div>
+
+    <script>
+        async function fetchEvaluation() {
+            const name = document.getElementById('name').value;
+            const empId = document.getElementById('empId').value;
+            const ssn = document.getElementById('ssn').value;
+            
+            if (!name || !empId || !ssn) {
+                alert("모든 정보를 입력하세요.");
+                return;
+            }
+            
+            const response = await fetch("1jWXFCKl-qeLr7UYEKMXc5zPlrY2DlFEXl8l4pkoGBz4?name=" + encodeURIComponent(name) + "&empId=" + encodeURIComponent(empId) + "&ssn=" + encodeURIComponent(ssn));
+            const data = await response.json();
+            
+            const resultDiv = document.getElementById("result");
+            if (data.success) {
+                resultDiv.innerHTML = `<p><strong>직책:</strong> ${data.position}</p>
+                                      <p><strong>근속년수:</strong> ${data.years}</p>
+                                      <p><strong>평가 점수:</strong> ${data.score}</p>`;
+                resultDiv.style.display = "block";
+            } else {
+                resultDiv.innerHTML = "조회된 정보가 없습니다.";
+                resultDiv.style.display = "block";
+            }
+        }
+    </script>
+</body>
+</html>
