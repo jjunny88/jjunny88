@@ -21,7 +21,6 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             width: 300px;
             text-align: center;
-            transition: all 0.3s ease-in-out;
         }
         .input-wrapper {
             position: relative;
@@ -59,19 +58,24 @@
         button:hover:not(:disabled) {
             background-color: #0056b3;
         }
-        .fade-in {
-            opacity: 0;
-            transition: opacity 0.5s ease-in-out;
+        .result {
+            margin-top: 20px;
+            padding: 10px;
+            background: #fff;
+            border-radius: 5px;
+            display: none;
         }
-        .show {
-            opacity: 1;
+        .loading {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #007bff;
+            display: none;
         }
     </style>
 </head>
 <body>
-    <div class="container fade-in show" id="formContainer">
+    <div class="container">
         <h2>임직원 인사평가 조회</h2>
-        
         <input type="text" id="name" placeholder="이름">
         <input type="text" id="empId" placeholder="사번">
 
@@ -81,9 +85,9 @@
         </div>
 
         <button id="searchBtn" onclick="fetchEvaluation()">조회</button>
-        <p id="loading" class="fade-in" style="display: none;">🔄 조회 중...</p>
+        <p id="loading" class="loading">🔄 조회 중...</p>
         
-        <div id="result" class="fade-in" style="display: none;"></div>
+        <div id="result" class="result"></div>
     </div>
 
     <script>
@@ -107,7 +111,6 @@
             const searchBtn = document.getElementById('searchBtn');
             const loadingText = document.getElementById('loading');
             const resultDiv = document.getElementById("result");
-            const formContainer = document.getElementById("formContainer");
 
             if (!name || !empId || !ssn) {
                 alert("모든 정보를 입력하세요.");
@@ -129,21 +132,15 @@
                 const data = await response.json();
 
                 if (data.success) {
-                    resultDiv.innerHTML = `
-                        <p><strong>이름:</strong> ${name}</p>
-                        <p><strong>사번:</strong> ${empId}</p>
-                        <p><strong>직책:</strong> ${data.position}</p>
-                        <p><strong>근속년수:</strong> ${data.years}</p>
-                        <p><strong>평가 점수:</strong> ${data.score}</p>
-                    `;
+                    resultDiv.innerHTML = `<p><strong>직책:</strong> ${data.position}</p>
+                                          <p><strong>근속년수:</strong> ${data.years}</p>
+                                          <p><strong>평가 점수:</strong> ${data.score}</p>`;
                 } else {
-                    resultDiv.innerHTML = "<p style='color: red;'>조회된 정보가 없습니다.</p>";
+                    resultDiv.innerHTML = "조회된 정보가 없습니다.";
                 }
-
                 resultDiv.style.display = "block"; // 결과 표시
-                formContainer.classList.add("show"); // 부드러운 효과 적용
             } catch (error) {
-                resultDiv.innerHTML = "<p style='color: red;'>⚠️ 서버 오류가 발생했습니다.</p>";
+                resultDiv.innerHTML = "⚠️ 서버 오류가 발생했습니다.";
                 resultDiv.style.display = "block";
             }
 
