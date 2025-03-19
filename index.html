@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>임직원 인사평가 조회</title>
+    <title>직책자 개인별 현황 조회</title>
     <style>
         body {
             font-family: 'Malgun Gothic', sans-serif;
@@ -75,7 +75,7 @@
 </head>
 <body>
     <div class="container">
-        <h2>임직원 인사평가 조회</h2>
+        <h2>직책자 개인별 현황 조회</h2>
         <input type="text" id="name" placeholder="이름">
         <input type="text" id="empId" placeholder="사번">
 
@@ -105,9 +105,9 @@
         }
 
         async function fetchEvaluation() {
-            const name = document.getElementById('name').value;
-            const empId = document.getElementById('empId').value;
-            const ssn = document.getElementById('ssn').value;
+            const name = document.getElementById('name').value.trim(); // 공백 제거
+            const empId = document.getElementById('empId').value.trim();
+            const ssn = document.getElementById('ssn').value.trim();
             const searchBtn = document.getElementById('searchBtn');
             const loadingText = document.getElementById('loading');
             const resultDiv = document.getElementById("result");
@@ -116,6 +116,8 @@
                 alert("모든 정보를 입력하세요.");
                 return;
             }
+
+            console.log("입력 값:", name, empId, ssn); // 콘솔에서 입력값 확인
 
             // 조회 버튼 비활성화 & 로딩 표시
             searchBtn.disabled = true;
@@ -130,17 +132,19 @@
                     + encodeURIComponent(ssn));
 
                 const data = await response.json();
+                console.log("서버 응답:", data); // 서버 응답을 콘솔에서 확인
 
                 if (data.success) {
                     resultDiv.innerHTML = `<p><strong>직책:</strong> ${data.position}</p>
                                           <p><strong>근속년수:</strong> ${data.years}</p>
                                           <p><strong>평가 점수:</strong> ${data.score}</p>`;
                 } else {
-                    resultDiv.innerHTML = "조회된 정보가 없습니다.";
+                    resultDiv.innerHTML = "<p style='color: red;'>조회된 정보가 없습니다.</p>";
                 }
                 resultDiv.style.display = "block"; // 결과 표시
             } catch (error) {
-                resultDiv.innerHTML = "⚠️ 서버 오류가 발생했습니다.";
+                console.error("오류 발생:", error);
+                resultDiv.innerHTML = "<p style='color: red;'>⚠️ 서버 오류가 발생했습니다.</p>";
                 resultDiv.style.display = "block";
             }
 
