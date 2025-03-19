@@ -17,7 +17,6 @@
       padding: 0;
     }
 
-    /* 공통 컨테이너 스타일 */
     .container {
       background: white;
       padding: 20px;
@@ -69,16 +68,24 @@
     .result-message {
       margin-top: 20px;
     }
+
+    /* 이미지 스타일 */
+    .logo {
+      width: 120px; /* 로고 크기 조정 */
+      margin-bottom: 10px;
+    }
   </style>
 </head>
 <body>
 
   <!-- 입력 폼 영역 -->
   <div id="inputContainer" class="container">
+    <!-- 이미지 추가 (수정된 부분) -->
+    <img src="https://i.imgur.com/YOUR_IMAGE_ID.jpg" alt="회사 로고" class="logo">
+    
     <h2>직책자 개인별 현황 조회</h2>
     <input type="text" id="name" placeholder="이름">
     <input type="text" id="empId" placeholder="사번">
-    <!-- 주민등록번호 입력란 더블클릭 시 타입 토글 -->
     <input type="password" id="ssn" placeholder="주민등록번호 뒷자리" ondblclick="toggleSSN()">
 
     <button id="searchBtn" onclick="fetchEvaluation()">조회</button>
@@ -87,13 +94,15 @@
 
   <!-- 결과 표시 영역 -->
   <div id="resultContainer" class="container">
+    <!-- 이미지 추가 (수정된 부분) -->
+    <img src="https://i.imgur.com/Idbnt0w.jpeg" alt="회사 로고" class="logo">
+    
     <h2>현황 조회 결과</h2>
     <div class="result-message" id="result"></div>
     <button onclick="goBack()">다시 조회</button>
   </div>
 
   <script>
-    // 주민등록번호 더블클릭 시 표시/숨김
     function toggleSSN() {
       const ssnInput = document.getElementById("ssn");
       ssnInput.type = (ssnInput.type === "password") ? "text" : "password";
@@ -112,14 +121,12 @@
         return;
       }
 
-      // 조회 버튼 비활성화 & 로딩 표시
       searchBtn.disabled = true;
       searchBtn.textContent = "조회 중...";
       loadingText.style.display = "block";
       resultDiv.innerHTML = ""; // 기존 결과 초기화
 
       try {
-        // 실제 운영 시, 아래 URL과 파라미터를 서버 상황에 맞게 수정하세요.
         const response = await fetch(
           "https://script.google.com/macros/s/AKfycbxQJTX75iO_D5y9p_CE84BhLxyXA_HEpWt3Qq4nEbEx8tgZq8p3Ros-SOZvighmyZUR/exec"
           + "?name=" + encodeURIComponent(name)
@@ -129,7 +136,6 @@
         const data = await response.json();
 
         if (data.success) {
-          // '팀'과 '직책'을 따로 표시한다고 가정
           resultDiv.innerHTML = `
             <p><strong>본부:</strong> ${data.headOffice}</p>
             <p><strong>지점:</strong> ${data.branch}</p>
@@ -142,7 +148,6 @@
           resultDiv.innerHTML = "<p style='color: red;'>조회된 정보가 없습니다.</p>";
         }
 
-        // 입력 폼 숨기고 결과 화면 표시
         document.getElementById('inputContainer').style.display = 'none';
         document.getElementById('resultContainer').style.display = 'block';
 
@@ -150,23 +155,18 @@
         console.error("오류 발생:", error);
         resultDiv.innerHTML = "<p style='color: red;'>⚠️ 서버 오류가 발생했습니다.</p>";
         
-        // 입력 폼 숨기고 결과 화면 표시
         document.getElementById('inputContainer').style.display = 'none';
         document.getElementById('resultContainer').style.display = 'block';
       }
 
-      // 조회 버튼 복구 & 로딩 숨김
       searchBtn.disabled = false;
       searchBtn.textContent = "조회";
       loadingText.style.display = "none";
     }
 
     function goBack() {
-      // 입력 영역 다시 보이기
       document.getElementById('inputContainer').style.display = 'block';
-      // 결과 영역 숨기기
       document.getElementById('resultContainer').style.display = 'none';
-      // 입력값 초기화
       document.getElementById('name').value = "";
       document.getElementById('empId').value = "";
       document.getElementById('ssn').value = "";
