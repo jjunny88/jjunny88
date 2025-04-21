@@ -211,6 +211,9 @@
   async function sendConfirmationEmail() {
     const name = document.getElementById('name').value.trim();
     const empId = document.getElementById('empId').value.trim();
+    const emailLoading = document.getElementById("emailLoading");
+
+    emailLoading.style.display = "block"; // 👉 추가
 
     try {
       const res = await fetch(
