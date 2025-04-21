@@ -127,8 +127,8 @@
 </p>
 
 <!-- 버튼 순서 바뀐 부분 -->
-<button onclick="sendConfirmationEmail()" style="margin-bottom: 10px;">확인 완료</button>
-<button onclick="goBack()" style="background-color: #6c757d;">다시 조회</button>
+<button onclick="goBack()" style="background-color: #6c757d; margin-bottom: 10px;">다시 조회</button>
+<button onclick="sendConfirmationEmail()">확인 완료</button>
 </div>
 
   <script>
@@ -223,6 +223,7 @@
         + "&empId=" + encodeURIComponent(empId)
       );
       const result = await res.json();
+      emailLoading.style.display = "none"; // ✅ 숨김 처리 추가
 
       if (result.success) {
         alert("📩 확인 완료 이메일이 전송되었습니다.");
