@@ -127,8 +127,8 @@
 </p>
 
 <!-- 버튼 순서 바뀐 부분 -->
-<button onclick="goBack()" style="background-color: #6c757d; margin-bottom: 10px;">다시 조회</button>
-<button onclick="sendConfirmationEmail()">확인 완료</button>
+<button onclick="sendConfirmationEmail()" style="margin-bottom: 10px;">확인 완료</button>
+<button onclick="goBack()" style="background-color: #6c757d;">다시 조회</button>
 </div>
 
   <script>
@@ -176,6 +176,7 @@
             <div class="result-line"><strong>팀:</strong> ${data.team}</div>
             <div class="result-line"><strong>직책:</strong> ${data.position}</div>
             <div class="result-line"><strong>직책 년차(인센티브 적용):</strong> ${data.yearsInPosition}</div>
+            <div class="result-line"><strong>25년 2분기 직책평가 등급:</strong> ${data.grade}</div>
           `;
         } else {
           resultDiv.innerHTML = "<p style='color: red;'>조회된 정보가 없습니다.</p>";
