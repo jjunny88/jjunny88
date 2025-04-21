@@ -112,12 +112,13 @@
 
   <!-- 결과 표시 영역 -->
   <div id="resultContainer" class="container">
-    <img src="https://i.imgur.com/QFo4qxk.jpeg" alt="상단 이미지" style="width: 200px; margin-bottom: 5px;">
-    
-    <h2> 조회 결과</h2>
-    <div class="result-message" id="result"></div>
-    <button onclick="goBack()">다시 조회</button>
-  </div>
+  <img src="https://i.imgur.com/QFo4qxk.jpeg" alt="상단 이미지" style="width: 200px; margin-bottom: 5px;">
+  
+  <h2> 조회 결과</h2>
+  <div class="result-message" id="result"></div>
+  <button onclick="goBack()">다시 조회</button>
+  <button onclick="sendConfirmationEmail()" style="margin-top:10px;">확인 완료</button>
+</div>
 
   <script>
     // 주민등록번호 더블클릭 시 표시/숨김
@@ -195,6 +196,30 @@
       document.getElementById('empId').value = "";
       document.getElementById('ssn').value = "";
     }
+  // ✅ 확인 완료 버튼 클릭 시 이메일 발송 함수
+  async function sendConfirmationEmail() {
+    const name = document.getElementById('name').value.trim();
+    const empId = document.getElementById('empId').value.trim();
+
+    try {
+      const res = await fetch(
+        "https://script.google.com/macros/s/AKfycbxQJTX75iO_D5y9p_CE84BhLxyXA_HEpWt3Qq4nEbEx8tgZq8p3Ros-SOZvighmyZUR/exec"
+        + "?mode=sendMail"
+        + "&name=" + encodeURIComponent(name)
+        + "&empId=" + encodeURIComponent(empId)
+      );
+      const result = await res.json();
+
+      if (result.success) {
+        alert("📩 확인 완료 이메일이 전송되었습니다.");
+      } else {
+        alert("⚠️ 이메일 전송에 실패했습니다.");
+      }
+    } catch (error) {
+      alert("⚠️ 서버 오류로 이메일 전송 실패");
+      console.error(error);
+    }
+  }
   </script>
 </body>
 </html>
