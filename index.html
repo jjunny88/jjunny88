@@ -118,16 +118,17 @@
   <div class="result-message" id="result"></div>
 
   <!-- 이메일 발송 중 로딩 텍스트 -->
-  <p id="emailLoading" class="loading">🔔 이메일 발송 중...</p>
+<p id="emailLoading" class="loading">🔔 이메일 발송 중...</p>
 
-  <!-- 안내 문구 -->
-  <p style="font-size: 14px; color: #333; margin-top: 10px;">
-  ✅ 본인 평가 내용을 확인하셨다면, 상단의(↑) <strong>확인 완료</strong> 버튼을 눌러주세요.
-  </p>
+<!-- 안내 문구 -->
+<p style="font-size: 14px; color: #333; margin: 10px 0 15px; text-align: left;">
+  ✅ 본인 평가 내용을 확인하셨다면,<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;하단의(↓) <strong>확인 완료</strong> 버튼을 눌러주세요.
+</p>
 
-  <!-- 버튼들 -->
-  <button onclick="goBack()" style="background-color: #6c757d;">다시 조회</button>
-  <button onclick="sendConfirmationEmail()" style="margin-top:10px;">확인 완료</button>
+<!-- 버튼 순서 바뀐 부분 -->
+<button onclick="sendConfirmationEmail()" style="margin-bottom: 10px;">확인 완료</button>
+<button onclick="goBack()" style="background-color: #6c757d;">다시 조회</button>
 </div>
 
   <script>
