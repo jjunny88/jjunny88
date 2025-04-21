@@ -111,12 +111,22 @@
   </div>
 
   <!-- 결과 표시 영역 -->
-  <div id="resultContainer" class="container">
+<div id="resultContainer" class="container">
   <img src="https://i.imgur.com/QFo4qxk.jpeg" alt="상단 이미지" style="width: 200px; margin-bottom: 5px;">
   
   <h2> 조회 결과</h2>
   <div class="result-message" id="result"></div>
-  <button onclick="goBack()">다시 조회</button>
+
+  <!-- 이메일 발송 중 로딩 텍스트 -->
+  <p id="emailLoading" class="loading">🔔 이메일 발송 중...</p>
+
+  <!-- 안내 문구 -->
+  <p style="font-size: 14px; color: #333; margin-top: 10px;">
+  ✅ 본인 평가 내용을 확인하셨다면, 상단의(↑) <strong>확인 완료</strong> 버튼을 눌러주세요.
+  </p>
+
+  <!-- 버튼들 -->
+  <button onclick="goBack()" style="background-color: #6c757d;">다시 조회</button>
   <button onclick="sendConfirmationEmail()" style="margin-top:10px;">확인 완료</button>
 </div>
 
