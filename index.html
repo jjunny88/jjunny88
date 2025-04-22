@@ -143,17 +143,17 @@
         const data = await response.json();
 
         if (data.success) {
-          resultDiv.innerHTML = `
-            <div class="result-line"><strong>본부:</strong> ${data.headOffice}</div>
-            <div class="result-line"><strong>지점:</strong> ${data.branch}</div>
-            <div class="result-line"><strong>실/센터:</strong> ${data.center}</div>
-            <div class="result-line"><strong>팀:</strong> ${data.team}</div>
-            <div class="result-line"><strong>직책(직책 년차):</strong> ${splitPosition(data.positionWithYears)}</div>
-            <div class="result-line"><strong>25년 2분기 평가등급:</strong> ${data.grade || ""}</div>
-          `;
-        } else {
-          resultDiv.innerHTML = "<p style='color: red;'>조회된 정보가 없습니다.</p>";
-        }
+  resultDiv.innerHTML = `
+    <div class="result-line"><strong>본부:</strong> ${data.headOffice}</div>
+    <div class="result-line"><strong>지점:</strong> ${data.branch}</div>
+    <div class="result-line"><strong>실/센터:</strong> ${data.center}</div>
+    <div class="result-line"><strong>팀:</strong> ${data.team}</div>
+    <div class="result-line"><strong>직책(직책 년차):</strong> ${data.positionWithYears || "-"}</div>
+    <div class="result-line"><strong>25년 2분기 평가등급:</strong> ${data.grade || "-"}</div>
+  `;
+} else {
+  resultDiv.innerHTML = "<p style='color: red;'>조회된 정보가 없습니다.</p>";
+}
 
         document.getElementById('inputContainer').style.display = 'none';
         document.getElementById('resultContainer').style.display = 'block';
