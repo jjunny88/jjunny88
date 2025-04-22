@@ -77,7 +77,6 @@
 </head>
 <body>
 
-  <!-- 입력 폼 -->
   <div id="inputContainer" class="container">
     <img src="https://i.imgur.com/QFo4qxk.jpeg" alt="상단 이미지" style="width: 200px; margin-bottom: 5px;">
     <h2>직책자 개인별 현황 조회</h2>
@@ -88,7 +87,6 @@
     <p id="loading" class="loading">🔄 조회 중...</p>
   </div>
 
-  <!-- 결과 화면 -->
   <div id="resultContainer" class="container" style="display: none;">
     <img src="https://i.imgur.com/QFo4qxk.jpeg" alt="상단 이미지" style="width: 200px; margin-bottom: 5px;">
     <h2>조회 결과</h2>
@@ -107,12 +105,6 @@
     function toggleSSN() {
       const ssnInput = document.getElementById("ssn");
       ssnInput.type = ssnInput.type === "password" ? "text" : "password";
-    }
-
-    // 문자열 중 " 평가" 앞까지만 잘라내는 함수
-    function splitPosition(fullText) {
-      const idx = fullText.indexOf(" 평가");
-      return idx > -1 ? fullText.substring(0, idx) : fullText;
     }
 
     async function fetchEvaluation() {
@@ -143,17 +135,17 @@
         const data = await response.json();
 
         if (data.success) {
-  resultDiv.innerHTML = `
-    <div class="result-line"><strong>본부:</strong> ${data.headOffice}</div>
-    <div class="result-line"><strong>지점:</strong> ${data.branch}</div>
-    <div class="result-line"><strong>실/센터:</strong> ${data.center}</div>
-    <div class="result-line"><strong>팀:</strong> ${data.team}</div>
-    <div class="result-line"><strong>직책(직책 년차):</strong> ${data.positionWithYears || "-"}</div>
-    <div class="result-line"><strong>25년 2분기 평가등급:</strong> ${data.grade || "-"}</div>
-  `;
-} else {
-  resultDiv.innerHTML = "<p style='color: red;'>조회된 정보가 없습니다.</p>";
-}
+          resultDiv.innerHTML = `
+            <div class="result-line"><strong>본부:</strong> ${data.headOffice}</div>
+            <div class="result-line"><strong>지점:</strong> ${data.branch}</div>
+            <div class="result-line"><strong>실/센터:</strong> ${data.center}</div>
+            <div class="result-line"><strong>팀:</strong> ${data.team}</div>
+            <div class="result-line"><strong>직책(직책 년차):</strong> ${data.position || "-"}</div>
+            <div class="result-line"><strong>25년 2분기 평가등급:</strong> ${data.grade || "-"}</div>
+          `;
+        } else {
+          resultDiv.innerHTML = "<p style='color: red;'>조회된 정보가 없습니다.</p>";
+        }
 
         document.getElementById('inputContainer').style.display = 'none';
         document.getElementById('resultContainer').style.display = 'block';
