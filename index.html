@@ -92,7 +92,9 @@
     <h2>조회 결과</h2>
     <div class="result-message" id="result"></div>
 
-    <p id="emailLoading" class="loading">🔔 2분기(25년2월~4월)</p>
+    <!-- ✳️ 유지 요청된 문구 -->
+    <p style="font-size: 14px; color: #007bff; margin: 10px 0;">🔔 2분기(25년2월~4월)</p>
+
     <p style="font-size: 14px; color: #333; margin: 10px 0 15px; text-align: left;">
       ✅ 본인 평가 내용을 확인하셨다면,<br />
       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;하단의(↓) <strong>확인 완료</strong> 버튼을 눌러주세요.
@@ -169,32 +171,9 @@
       document.getElementById('ssn').value = "";
     }
 
-    async function sendConfirmationEmail() {
-      const name = document.getElementById('name').value.trim();
-      const empId = document.getElementById('empId').value.trim();
-      const emailLoading = document.getElementById("emailLoading");
-
-      emailLoading.style.display = "block";
-
-      try {
-        const res = await fetch(
-          "https://script.google.com/macros/s/AKfycbxOHRhteQExa9QYIgyBLwGDMpmDa49H_4xBNTe7KLTkoxAIRVOLMKwDmw2KZFrdlgRA/exec"
-          + "?mode=sendMail"
-          + "&name=" + encodeURIComponent(name)
-          + "&empId=" + encodeURIComponent(empId)
-        );
-        const result = await res.json();
-        emailLoading.style.display = "none";
-
-        if (result.success) {
-          alert("📩 확인 완료 이메일이 전송되었습니다.");
-        } else {
-          alert("⚠️ 이메일 전송에 실패했습니다.");
-        }
-      } catch (error) {
-        alert("⚠️ 서버 오류로 이메일 전송 실패");
-        console.error(error);
-      }
+    function sendConfirmationEmail() {
+      // 메일 발송 없이 단순히 조회화면으로 복귀
+      goBack();
     }
   </script>
 </body>
