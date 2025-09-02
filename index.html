@@ -73,6 +73,10 @@
     .result-line strong {
       margin-right: 5px;
     }
+    /* ▶ 기준일 텍스트만 두 단계 작게 */
+    .small-text {
+      font-size: 12px; /* 기본 16px 대비 약 2단계 축소 */
+    }
   </style>
 </head>
 <body>
@@ -137,11 +141,16 @@
         const data = await response.json();
 
         if (data.success) {
+          // ▼ 여기서 기준일만 작은 글씨로 처리
           resultDiv.innerHTML = `
             <div class="result-line"><strong>본부:</strong> ${data.headOffice}</div>
             <div class="result-line"><strong>지점:</strong> ${data.branch}</div>
             <div class="result-line"><strong>부서:</strong> ${data.center}</div>
-            <div class="result-line"><strong>직책[직책 년차(기준일 25.07.31)]:</strong> ${data.team}</div>
+            <div class="result-line">
+              <strong>
+                직책[직책 년차<span class="small-text">(기준일 25.07.31)</span>]:
+              </strong> ${data.team}
+            </div>
             <div class="result-line"><strong>3분기 인센티브 유무:</strong> ${data.position || "-"}</div>
           `;
         } else {
