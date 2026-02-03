@@ -69,13 +69,14 @@
       padding: 8px;
       margin-bottom: 8px;
       text-align: left;
+      word-break: break-word; /* 비고 길어도 줄바꿈 */
     }
     .result-line strong {
       margin-right: 5px;
     }
     /* ▶ 기준일 텍스트만 두 단계 작게 */
     .small-text {
-      font-size: 12px; /* 기본 16px 대비 약 2단계 축소 */
+      font-size: 12px;
     }
   </style>
 </head>
@@ -141,17 +142,19 @@
         const data = await response.json();
 
         if (data.success) {
-          // ▼ 여기서 기준일만 작은 글씨로 처리
           resultDiv.innerHTML = `
-            <div class="result-line"><strong>본부:</strong> ${data.headOffice}</div>
-            <div class="result-line"><strong>지점:</strong> ${data.branch}</div>
-            <div class="result-line"><strong>부서:</strong> ${data.center}</div>
+            <div class="result-line"><strong>본부:</strong> ${data.headOffice || "-"}</div>
+            <div class="result-line"><strong>지점:</strong> ${data.branch || "-"}</div>
+            <div class="result-line"><strong>부서:</strong> ${data.center || "-"}</div>
             <div class="result-line">
               <strong>
                 직책[직책 년차<span class="small-text">(기준일 26.01.31)</span>]:
-              </strong> ${data.team}
+              </strong> ${data.team || "-"}
             </div>
             <div class="result-line"><strong>26년 1분기 인센티브 유무:</strong> ${data.position || "-"}</div>
+
+            <!-- ✅ 비고 추가 (구글시트 I열 값) -->
+            <div class="result-line"><strong>비고:</strong> ${data.remark || "-"}</div>
           `;
         } else {
           resultDiv.innerHTML = "<p style='color: red;'>조회된 정보가 없습니다.</p>";
